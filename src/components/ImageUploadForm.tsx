@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Upload, FileCheck } from "lucide-react";
 import type { Institution } from "@/types/institution";
+import { toast } from "sonner";
 
 const imageTypes = [
   { id: "student", label: "Student" },
@@ -37,13 +39,30 @@ export function ImageUploadForm() {
     
     setLoading(true);
     try {
+      console.log('Fetching institution with regId:', regId);
       const response = await fetch(`/api/institution/${regId}`);
+      
+      console.log('Response status:', response.status);
       if (!response.ok) throw new Error('Institution not found');
+      
       const data = await response.json();
-      setInstitution(data);
+      console.log('Received data:', data);
+      
+      // Map the API response to the Institution interface
+      setInstitution({
+        id: regId,
+        name: data.name,
+        country: data.country,
+        region: data.region,
+        level: data.level,
+        curriculum: data.curriculum
+      });
+      
+      toast.success('Institution found');
     } catch (err) {
       console.error('Failed to fetch institution:', err);
       setInstitution(null);
+      toast.error('Institution not found or error fetching data');
     } finally {
       setLoading(false);
     }
@@ -71,6 +90,8 @@ export function ImageUploadForm() {
       version,
       hash
     });
+    
+    toast.success('Image uploaded successfully');
   };
 
   return (
