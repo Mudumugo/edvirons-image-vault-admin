@@ -1,22 +1,17 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload } from "lucide-react";
-
-const institutions = [
-  "Kibera Secondary",
-  "Mfangano High",
-  "Kakuma Secondary",
-  "Other"
-];
+import type { Institution } from "@/types/institution";
 
 const imageTypes = [
   "Student",
   "Teacher",
+  "Lab",
   "Admin"
 ];
 
@@ -69,7 +64,7 @@ export function ImageUploadForm() {
                 <SelectValue placeholder="Select institution" />
               </SelectTrigger>
               <SelectContent>
-                {institutions.map((inst) => (
+                {["Kibera Secondary", "Mfangano High", "Kakuma Secondary", "Other"].map((inst) => (
                   <SelectItem key={inst} value={inst}>
                     {inst}
                   </SelectItem>
