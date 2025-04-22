@@ -9,8 +9,16 @@ async function enableMocking() {
     return
   }
 
+  // This creates or updates the mockServiceWorker.js file in public/
   const { worker } = await import('./mocks/browser')
-  return worker.start()
+  
+  // Start the worker with explicit options
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+    serviceWorker: {
+      url: '/mockServiceWorker.js',
+    },
+  })
 }
 
 enableMocking().then(() => {
