@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -40,7 +39,7 @@ export function ImageUploadForm() {
     try {
       const response = await fetch(`/api/institution/${regId}`);
       if (!response.ok) throw new Error('Institution not found');
-      const data: Institution = await response.json();
+      const data = await response.json();
       setInstitution(data);
     } catch (err) {
       console.error('Failed to fetch institution:', err);
