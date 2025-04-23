@@ -20,7 +20,7 @@ const menuItems = [
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
   { title: "Licensing", url: "/license", icon: Key },
-  { title: "Renew License", url: "/license/renew", icon: Key },
+  // Removed the "Renew License" entry here.
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
