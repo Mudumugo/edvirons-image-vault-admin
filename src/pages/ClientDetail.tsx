@@ -5,35 +5,17 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RefreshCw, Download, Clock, Shield, CreditCard, Wallet } from "lucide-react";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader as DialogHeaderComp,
-  DialogTitle as DialogTitleComp,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { RefreshCw, Download, Clock, Shield } from "lucide-react";
 import RenewLicenseDialog from "@/components/RenewLicenseDialog";
+import { ClientStatusBadge } from "@/components/ClientStatusBadge";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ClientDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // In a real app, you would fetch this data based on the ID
   const client = {
     id: id || "1",
     name: "Kigwa Ridge High School",
@@ -187,7 +169,9 @@ export default function ClientDetail() {
                         <TableCell>{license.tier}</TableCell>
                         <TableCell>{license.issuedOn}</TableCell>
                         <TableCell>{license.expiresOn}</TableCell>
-                        <TableCell>{getStatusBadge(license.status)}</TableCell>
+                        <TableCell>
+                          <ClientStatusBadge status={license.status} />
+                        </TableCell>
                         <TableCell>
                           <Button variant="outline" size="sm">
                             <Download className="h-4 w-4 mr-1" />
