@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import LicenseManager from "./pages/LicenseManager";
 import RenewLicensePage from "./pages/RenewLicensePage";
+import ClientsDashboard from "./pages/ClientsDashboard";
+import ClientDetail from "./pages/ClientDetail";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +26,8 @@ const App = () => (
               <Route path="/" element={<Dashboard />} />
               <Route path="/license" element={<LicenseManager />} />
               <Route path="/license/renew" element={<RenewLicensePage />} />
+              <Route path="/clients" element={<ClientsDashboard />} />
+              <Route path="/clients/:id" element={<ClientDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

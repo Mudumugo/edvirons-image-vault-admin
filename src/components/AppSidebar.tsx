@@ -1,4 +1,5 @@
-import { Home, HardDrive, History, Users, Key } from "lucide-react";
+
+import { Home, HardDrive, History, Users, Key, Building } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +14,7 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "Images", url: "/images", icon: HardDrive },
+  { title: "Clients", url: "/clients", icon: Building },
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
   { title: "Licensing", url: "/license", icon: Key },
