@@ -1,4 +1,3 @@
-
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +9,7 @@ import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { SSOSettings } from "@/components/settings/SSOSettings";
+import LicenseTierSettings from "@/components/settings/LicenseTierSettings";
 
 export default function Settings() {
   return (
@@ -32,11 +32,12 @@ export default function Settings() {
         </header>
 
         <Tabs defaultValue="profile" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 md:w-auto">
+          <TabsList className="grid w-full grid-cols-5 md:w-auto">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="sso">SSO</TabsTrigger>
+            <TabsTrigger value="license-tiers">License Tiers</TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile">
@@ -53,6 +54,10 @@ export default function Settings() {
           
           <TabsContent value="sso">
             <SSOSettings />
+          </TabsContent>
+
+          <TabsContent value="license-tiers">
+            <LicenseTierSettings />
           </TabsContent>
         </Tabs>
       </div>
