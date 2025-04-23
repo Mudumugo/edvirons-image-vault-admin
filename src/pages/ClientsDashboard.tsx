@@ -7,15 +7,43 @@ import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@
 import { Badge } from "@/components/ui/badge";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Eye, RefreshCw } from "lucide-react";
+import { Eye, RefreshCw, Image as ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AddClientDialog } from "@/components/AddClientDialog";
+import { ImageDetailDialog } from "@/components/ImageDetailDialog";
+
+// Mocked image details for demonstration
+const clientImages = {
+  "1": {
+    filename: "edvirons-kigwa-v1.0.iso",
+    institution: "Kigwa Ridge High School",
+    type: "Student",
+    version: "1.0",
+    uploaded: "2025-04-18",
+    uploadedBy: "admin@edvirons.com",
+  },
+  "2": {
+    filename: "makadara-tech-v2.iso",
+    institution: "Makadara Tech College",
+    type: "Teacher",
+    version: "2.0",
+    uploaded: "2025-03-12",
+    uploadedBy: "it@edvirons.com",
+  },
+  "3": {
+    filename: "mfangano-student-v1.iso",
+    institution: "Mfangano Island Secondary",
+    type: "Student",
+    version: "1.0",
+    uploaded: "2024-11-08",
+    uploadedBy: "devops@edvirons.com",
+  }
+};
 
 export default function ClientsDashboard() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  // Moved initial clients to state so we can update when adding new clients
   const [clients, setClients] = useState([
     {
       id: "1",
@@ -49,7 +77,19 @@ export default function ClientsDashboard() {
     }
   ]);
 
-  // Handle adding a new client
+  // --- start image detail dialog logic ---
+  const [imageDetailOpen, setImageDetailOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<any | null>(null);
+
+  const handleShowImageDetail = (clientId: string) => {
+    const image = clientImages[clientId];
+    if (image) {
+      setSelectedImage(image);
+      setImageDetailOpen(true);
+    }
+  };
+  // --- end image detail dialog logic ---
+
   const handleAddClient = (client: any) => {
     setClients([
       ...clients,
@@ -61,7 +101,6 @@ export default function ClientsDashboard() {
           expiresOn: "2026-12-31",
           status: "Valid",
         },
-        // mock defaults (real implementation could let you pick tier, etc)
       }
     ]);
   };
@@ -129,6 +168,7 @@ export default function ClientsDashboard() {
                     <TableHead>Tier</TableHead>
                     <TableHead>Expiry</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Image</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -142,6 +182,19 @@ export default function ClientsDashboard() {
                       <TableCell>{client.license.tier}</TableCell>
                       <TableCell>{client.license.expiresOn}</TableCell>
                       <TableCell>{getStatusBadge(client.license.status)}</TableCell>
+                      <TableCell>
+                        {clientImages[client.id] ? (
+                          <button
+                            className="flex items-center gap-1 text-primary hover:underline"
+                            onClick={() => handleShowImageDetail(client.id)}
+                          >
+                            <ImageIcon className="w-5 h-5" />
+                            <span className="hidden sm:inline text-xs font-mono">{clientImages[client.id].filename}</span>
+                          </button>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">None</span>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" onClick={() => handleViewClient(client.id)}>
@@ -166,6 +219,11 @@ export default function ClientsDashboard() {
             </div>
           </CardContent>
         </Card>
+        <ImageDetailDialog
+          image={selectedImage}
+          open={imageDetailOpen}
+          onOpenChange={setImageDetailOpen}
+        />
       </div>
     </>
   );
