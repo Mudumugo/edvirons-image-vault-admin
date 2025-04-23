@@ -15,6 +15,7 @@ import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import Logs from "./pages/Logs";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/clients/:id" element={<ClientDetail />} />
               <Route path="/registry" element={<Registry />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/logs" element={<Logs />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
