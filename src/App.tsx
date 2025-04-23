@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import LicenseManager from "./pages/LicenseManager";
 import RenewLicensePage from "./pages/RenewLicensePage";
 import ClientsDashboard from "./pages/ClientsDashboard";
 import ClientDetail from "./pages/ClientDetail";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
