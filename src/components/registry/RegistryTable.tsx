@@ -40,17 +40,18 @@ export function RegistryTable({ institutions, isLoading, onRefresh }: RegistryTa
               <TableHead>Curriculum</TableHead>
               <TableHead>Region</TableHead>
               <TableHead>Country</TableHead>
+              <TableHead>Type</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-4">Loading...</TableCell>
+                <TableCell colSpan={8} className="text-center py-4">Loading...</TableCell>
               </TableRow>
             ) : institutions.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-4">No institutions found</TableCell>
+                <TableCell colSpan={8} className="text-center py-4">No institutions found</TableCell>
               </TableRow>
             ) : (
               institutions.map((institution) => (
@@ -61,6 +62,7 @@ export function RegistryTable({ institutions, isLoading, onRefresh }: RegistryTa
                   <TableCell>{institution.curriculum}</TableCell>
                   <TableCell>{institution.region}</TableCell>
                   <TableCell>{institution.country}</TableCell>
+                  <TableCell className="capitalize">{institution.type}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" onClick={() => handleEdit(institution)}>

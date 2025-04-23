@@ -20,7 +20,8 @@ export default function Registry() {
       institution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       institution.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       institution.region.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      institution.curriculum.toLowerCase().includes(searchQuery.toLowerCase())
+      institution.curriculum.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      institution.type.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
   return (
@@ -47,7 +48,7 @@ export default function Registry() {
               </p>
             </div>
             <Input
-              placeholder="Search by name, ID or region"
+              placeholder="Search by name, ID, region, or type"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="max-w-sm"

@@ -21,7 +21,8 @@ export function AddInstitutionDialog({ open, onOpenChange, onSuccess }: AddInsti
     level: "High School",
     curriculum: "CBC",
     region: "",
-    country: "KE"
+    country: "KE",
+    type: "public"
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +66,8 @@ export function AddInstitutionDialog({ open, onOpenChange, onSuccess }: AddInsti
         level: "High School",
         curriculum: "CBC",
         region: "",
-        country: "KE"
+        country: "KE",
+        type: "public"
       });
     } catch (error) {
       console.error("Error adding institution:", error);
@@ -174,6 +176,23 @@ export function AddInstitutionDialog({ open, onOpenChange, onSuccess }: AddInsti
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          {/* Type selection */}
+          <div className="space-y-2">
+            <Label htmlFor="type">Type</Label>
+            <Select
+              value={formData.type}
+              onValueChange={(value) => handleSelectChange("type", value)}
+            >
+              <SelectTrigger id="type">
+                <SelectValue placeholder="Select type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="public">Public</SelectItem>
+                <SelectItem value="private">Private</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           
           <DialogFooter className="mt-6">

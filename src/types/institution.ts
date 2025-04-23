@@ -6,4 +6,5 @@ export interface Institution {
   curriculum: string;
   region: string;
   country: string;
+  type: "public" | "private";
 }

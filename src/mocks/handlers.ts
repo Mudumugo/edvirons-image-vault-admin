@@ -9,6 +9,7 @@ let mockRegistry: Record<string, any> = {
     region: "Nairobi",
     level: "High School",
     curriculum: "CBC",
+    type: "public"
   },
   "KEB010245": {
     name: "Mfangano Technical College",
@@ -16,6 +17,7 @@ let mockRegistry: Record<string, any> = {
     region: "Homabay",
     level: "TVET",
     curriculum: "CDACC",
+    type: "public"
   },
   "MOE789012": {
     name: "Nakuru Day Secondary",
@@ -23,6 +25,7 @@ let mockRegistry: Record<string, any> = {
     region: "Nakuru",
     level: "High School",
     curriculum: "CBC",
+    type: "private"
   },
   "MOE654321": {
     name: "Eldoret Polytechnic",
@@ -30,6 +33,7 @@ let mockRegistry: Record<string, any> = {
     region: "Uasin Gishu",
     level: "TVET",
     curriculum: "CDACC",
+    type: "private"
   },
 };
 
