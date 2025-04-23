@@ -20,7 +20,7 @@ const menuItems = [
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
   { title: "Licensing", url: "/license", icon: Key },
-  // Removed the "Renew License" entry here.
+  // Renew License entry removed
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -28,8 +28,20 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r">
       <SidebarContent>
+        {/* Fancy Edvirons Registry Logo */}
+        <div className="flex flex-col items-center pt-6 pb-4">
+          <div className="w-14 h-14 rounded-full shadow-lg bg-gradient-to-tr from-primary to-indigo-600 flex items-center justify-center">
+            <span className="text-3xl font-extrabold text-white select-none drop-shadow">
+              ER
+            </span>
+          </div>
+          <span className="mt-2 text-lg font-semibold text-primary tracking-wide drop-shadow-sm">
+            Edvirons Registry
+          </span>
+        </div>
         <SidebarGroup>
-          <SidebarGroupLabel>EdVirons Registry</SidebarGroupLabel>
+          {/* You can optionally remove this label below as it's now repeated in the logo */}
+          {/* <SidebarGroupLabel>EdVirons Registry</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
