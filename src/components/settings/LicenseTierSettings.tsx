@@ -14,6 +14,7 @@ interface LicenseTier {
   description: string;
   durationYears: number;
   color: string;
+  cost: number;
   default?: boolean;
 }
 
@@ -24,6 +25,7 @@ const defaultTiers: LicenseTier[] = [
     description: "Single year license for basic compliance.",
     durationYears: 1,
     color: "#8E9196",
+    cost: 0,
     default: true,
   },
   {
@@ -32,6 +34,7 @@ const defaultTiers: LicenseTier[] = [
     description: "Three years license with premium support.",
     durationYears: 3,
     color: "#9b87f5",
+    cost: 0,
   },
 ];
 
@@ -54,6 +57,9 @@ function LicenseTierRow({
       </TableCell>
       <TableCell>{tier.description}</TableCell>
       <TableCell>{tier.durationYears} year{tier.durationYears > 1 && "s"}</TableCell>
+      <TableCell>
+        {typeof tier.cost === "number" ? `$${tier.cost.toFixed(2)}` : "-"}
+      </TableCell>
       <TableCell>
         <div className="flex gap-2">
           <Button variant="outline" size="icon" onClick={() => onEdit(tier)}>
@@ -81,11 +87,12 @@ export function LicenseTierSettings() {
     description: "",
     durationYears: 1,
     color: "#9b87f5",
+    cost: 0,
   });
 
   function openNew() {
     setEditTier(null);
-    setForm({ name: "", description: "", durationYears: 1, color: "#9b87f5" });
+    setForm({ name: "", description: "", durationYears: 1, color: "#9b87f5", cost: 0 });
     setDialogOpen(true);
   }
 
@@ -96,6 +103,7 @@ export function LicenseTierSettings() {
       description: tier.description,
       durationYears: tier.durationYears,
       color: tier.color,
+      cost: tier.cost ?? 0,
     });
     setDialogOpen(true);
   }
@@ -150,6 +158,7 @@ export function LicenseTierSettings() {
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Duration</TableHead>
+                <TableHead>Cost</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -194,6 +203,14 @@ export function LicenseTierSettings() {
               placeholder="Duration in Years"
               value={form.durationYears}
               onChange={(e) => handleFormChange("durationYears", Number(e.target.value))}
+            />
+            <Input
+              type="number"
+              min={0}
+              step="0.01"
+              placeholder="Cost (USD)"
+              value={form.cost}
+              onChange={(e) => handleFormChange("cost", Number(e.target.value))}
             />
             <div className="flex items-center gap-2">
               <span>Color:</span>
