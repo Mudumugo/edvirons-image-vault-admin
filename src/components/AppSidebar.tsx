@@ -1,4 +1,5 @@
 
+import { NavLink } from "react-router-dom";
 import { Home, HardDrive, History, Users, Key, Building } from "lucide-react";
 import {
   Sidebar,
@@ -12,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", url: "/", icon: Home },
+  { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Images", url: "/images", icon: HardDrive },
   { title: "Clients", url: "/clients", icon: Building },
   { title: "Logs", url: "/logs", icon: History },
@@ -32,10 +33,19 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3">
+                    <NavLink
+                      to={item.url}
+                      className={({ isActive }) =>
+                        [
+                          "flex items-center gap-3",
+                          isActive ? "font-bold text-primary" : "",
+                        ].join(" ")
+                      }
+                      end={item.url === "/dashboard" || item.url === "/images"}
+                    >
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
-                    </a>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

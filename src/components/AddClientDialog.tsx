@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Dialog,
@@ -76,56 +75,49 @@ export function AddClientDialog({ onAdd }: AddClientDialogProps) {
         <form onSubmit={handleSubmit} className="space-y-3">
           <Input
             required
-            label="Institution Name"
             name="name"
-            placeholder="e.g. Greenfields School"
+            placeholder="Institution Name (e.g. Greenfields School)"
             value={form.name}
             onChange={handleChange}
           />
           <Input
             required
-            label="Registration Number"
             name="reg_no"
-            placeholder="e.g. MOE-123456"
+            placeholder="Registration Number (e.g. MOE-123456)"
             value={form.reg_no}
             onChange={handleChange}
           />
           <Input
             required
-            label="Curriculum"
             name="curriculum"
-            placeholder="e.g. CBC, TVET"
+            placeholder="Curriculum (e.g. CBC, TVET)"
             value={form.curriculum}
             onChange={handleChange}
           />
           <Input
             required
-            label="Region"
             name="region"
-            placeholder="e.g. Nairobi"
+            placeholder="Region (e.g. Nairobi)"
             value={form.region}
             onChange={handleChange}
           />
           <Input
             required
-            label="Country"
             name="country"
-            placeholder="e.g. Kenya"
+            placeholder="Country (e.g. Kenya)"
             value={form.country}
             onChange={handleChange}
           />
           <Input
             required
-            label="Level"
             name="level"
-            placeholder="e.g. Primary, Secondary, College"
+            placeholder="Institution Level (e.g. Primary, Secondary, College)"
             value={form.level}
             onChange={handleChange}
           />
           <Input
-            label="Contact Email (optional)"
             name="contact"
-            placeholder="admin@institution.org"
+            placeholder="Contact Email (admin@institution.org)"
             type="email"
             value={form.contact}
             onChange={handleChange}
