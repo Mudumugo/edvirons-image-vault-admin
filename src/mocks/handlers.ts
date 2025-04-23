@@ -1,8 +1,9 @@
 
 import { http, HttpResponse } from 'msw';
+import type { Institution } from '@/types/institution';
 
 // Initialize mock registry with some sample institutions
-let mockRegistry: Record<string, any> = {
+let mockRegistry: Record<string, Omit<Institution, 'id'>> = {
   "13426": {
     name: "Kibera High School",
     country: "KE",
@@ -65,23 +66,23 @@ export const handlers = [
   
   // Create a new institution
   http.post('/api/institution', async ({ request }) => {
-    const institution = await request.json();
+    const data = await request.json() as Institution;
     
-    if (!institution.id || !institution.name) {
+    if (!data.id || !data.name) {
       return HttpResponse.json(
         { error: "Institution ID and name are required" },
         { status: 400 }
       );
     }
     
-    if (mockRegistry[institution.id]) {
+    if (mockRegistry[data.id]) {
       return HttpResponse.json(
         { error: "Institution with this ID already exists" },
         { status: 409 }
       );
     }
     
-    const { id, ...institutionData } = institution;
+    const { id, ...institutionData } = data;
     mockRegistry[id] = institutionData;
     
     return HttpResponse.json({ 
@@ -93,7 +94,7 @@ export const handlers = [
   // Update an institution
   http.put('/api/institution/:regId', async ({ params, request }) => {
     const { regId } = params;
-    const updatedData = await request.json();
+    const updatedData = await request.json() as Institution;
     
     if (!mockRegistry[regId as string]) {
       return HttpResponse.json(
