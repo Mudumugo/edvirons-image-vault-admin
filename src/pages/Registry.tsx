@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -8,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { RegistryTable } from "@/components/registry/RegistryTable";
 import { AddInstitutionDialog } from "@/components/registry/AddInstitutionDialog";
+import { BulkUploadDialog } from "@/components/registry/BulkUploadDialog";
 import { useFetchRegistry } from "@/hooks/useFetchRegistry";
 import {
   Select,
@@ -20,25 +20,22 @@ import {
 export default function Registry() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
 
-  // Filter state - using "all" instead of empty string for the default values
   const [levelFilter, setLevelFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [curriculumFilter, setCurriculumFilter] = useState("all");
   const [regionFilter, setRegionFilter] = useState("all");
   const [countryFilter, setCountryFilter] = useState("all");
 
-  // Fetching registry data
   const { data: institutions, isLoading, refetch } = useFetchRegistry();
 
-  // Compute unique filter options from current data (safe even if institutions is undefined)
   const levels = Array.from(new Set((institutions || []).map(i => i.level))).filter(Boolean);
   const types = Array.from(new Set((institutions || []).map(i => i.type))).filter(Boolean);
   const curricula = Array.from(new Set((institutions || []).map(i => i.curriculum))).filter(Boolean);
   const regions = Array.from(new Set((institutions || []).map(i => i.region))).filter(Boolean);
   const countries = Array.from(new Set((institutions || []).map(i => i.country))).filter(Boolean);
 
-  // Filter + search logic - modified to check for "all" instead of empty string
   const filteredInstitutions = (institutions || []).filter((institution) => {
     const matchesSearch =
       institution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -72,15 +69,19 @@ export default function Registry() {
             <SidebarTrigger />
             <h1 className="text-2xl font-semibold">Institution Registry</h1>
           </div>
-          <Button onClick={() => setDialogOpen(true)} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add Institution
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => setBulkDialogOpen(true)} variant="outline">
+              Bulk Upload CSV
+            </Button>
+            <Button onClick={() => setDialogOpen(true)} className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Add Institution
+            </Button>
+          </div>
         </header>
 
         <Card>
           <CardHeader className="flex flex-col gap-4">
-            {/* Filter bar - updated to use "all" value instead of empty string */}
             <div className="flex flex-col md:flex-row flex-wrap gap-4">
               <div className="flex flex-col">
                 <label className="text-xs mb-1">Education Level</label>
@@ -153,7 +154,6 @@ export default function Registry() {
                 </Select>
               </div>
             </div>
-            {/* Search bar (kept as before) */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
               <div>
                 <CardTitle>Registered Institutions</CardTitle>
@@ -181,6 +181,11 @@ export default function Registry() {
         <AddInstitutionDialog 
           open={dialogOpen} 
           onOpenChange={setDialogOpen} 
+          onSuccess={refetch}
+        />
+        <BulkUploadDialog
+          open={bulkDialogOpen}
+          onOpenChange={setBulkDialogOpen}
           onSuccess={refetch}
         />
       </div>
