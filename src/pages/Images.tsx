@@ -1,3 +1,4 @@
+
 import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ImageUploadForm } from "@/components/ImageUploadForm";
 import { Plus, Eye, Download, Trash } from "lucide-react";
 import { useState } from "react";
+import { ImageDetailDialog } from "@/components/ImageDetailDialog";
 
 const images = [
   {
@@ -27,6 +29,13 @@ const images = [
 
 export default function Images() {
   const [open, setOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<typeof images[0] | null>(null);
+
+  const handleView = (img: typeof images[0]) => {
+    setSelectedImage(img);
+    setDetailOpen(true);
+  };
 
   return (
     <>
@@ -66,7 +75,7 @@ export default function Images() {
                     Uploaded: {img.uploaded} • By: {img.uploadedBy}
                   </p>
                   <div className="mt-4 flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => handleView(img)}>
                       <Eye className="h-4 w-4 mr-2" />
                       View
                     </Button>
@@ -84,6 +93,11 @@ export default function Images() {
             ))}
           </div>
         </div>
+        <ImageDetailDialog
+          image={selectedImage}
+          open={detailOpen}
+          onOpenChange={setDetailOpen}
+        />
       </div>
     </>
   );
