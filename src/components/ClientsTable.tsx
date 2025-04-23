@@ -4,12 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Eye, RefreshCw, Image as ImageIcon } from "lucide-react";
+import { Eye, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ImageDetailDialog } from "@/components/ImageDetailDialog";
 import { useImageDetailDialog, ImageDetail } from "@/hooks/useImageDetailDialog";
 import { AddClientDialog } from "@/components/AddClientDialog";
+import { ClientStatusBadge } from "@/components/ClientStatusBadge";
+import { ClientImageCell } from "@/components/ClientImageCell";
 
 // Mocked image details for demonstration
 const clientImages: Record<string, ImageDetail> = {
@@ -83,19 +84,6 @@ export function ClientsTable({ clients, setClients }: ClientsTableProps) {
     navigate(`/license/renew?client=${clientId}`);
   };
 
-  const getStatusBadge = (status: string) => {
-    switch(status) {
-      case "Valid":
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Valid</Badge>;
-      case "Expiring Soon":
-        return <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">Expiring Soon</Badge>;
-      case "Expired":
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Expired</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
-
   return (
     <>
       <Card>
@@ -136,19 +124,15 @@ export function ClientsTable({ clients, setClients }: ClientsTableProps) {
                     <TableCell>{client.region}</TableCell>
                     <TableCell>{client.license.tier}</TableCell>
                     <TableCell>{client.license.expiresOn}</TableCell>
-                    <TableCell>{getStatusBadge(client.license.status)}</TableCell>
                     <TableCell>
-                      {clientImages[client.id] ? (
-                        <button
-                          className="flex items-center gap-1 text-primary hover:underline"
-                          onClick={() => handleShowImageDetail(client.id)}
-                        >
-                          <ImageIcon className="w-5 h-5" />
-                          <span className="hidden sm:inline text-xs font-mono">{clientImages[client.id].filename}</span>
-                        </button>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">None</span>
-                      )}
+                      <ClientStatusBadge status={client.license.status} />
+                    </TableCell>
+                    <TableCell>
+                      <ClientImageCell
+                        image={clientImages[client.id]}
+                        clientId={client.id}
+                        onShowDetail={handleShowImageDetail}
+                      />
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
