@@ -43,7 +43,9 @@ export function ImageUploadForm() {
       const response = await fetch(`/api/institution/${regId}`);
       
       console.log('Response status:', response.status);
-      if (!response.ok) throw new Error('Institution not found');
+      if (!response.ok) {
+        throw new Error('Institution not found');
+      }
       
       const data = await response.json();
       console.log('Received data:', data);
