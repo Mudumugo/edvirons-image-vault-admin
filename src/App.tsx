@@ -7,6 +7,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import LicenseManager from "./pages/LicenseManager";
+import RenewLicensePage from "./pages/RenewLicensePage";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/license" element={<LicenseManager />} />
+              <Route path="/license/renew" element={<RenewLicensePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
