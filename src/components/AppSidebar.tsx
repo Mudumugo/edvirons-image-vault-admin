@@ -1,5 +1,4 @@
-
-import { Home, HardDrive, History, Users } from "lucide-react";
+import { Home, HardDrive, History, Users, Key } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +15,7 @@ const menuItems = [
   { title: "Images", url: "/images", icon: HardDrive },
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
+  { title: "Licensing", url: "/license", icon: Key },
 ];
 
 export function AppSidebar() {
