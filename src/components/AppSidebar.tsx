@@ -1,6 +1,6 @@
 
 import { NavLink } from "react-router-dom";
-import { Home, HardDrive, History, Users, Key, Building, Search } from "lucide-react";
+import { Home, HardDrive, History, Users, Key, Building, Search, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,12 +15,13 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Images", url: "/images", icon: HardDrive },
-  { title: "Clients", url: "/clients", icon: Building }, // Updated to match the route
+  { title: "Clients", url: "/clients", icon: Building },
   { title: "Registry", url: "/registry", icon: Search },
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
   { title: "Licensing", url: "/license", icon: Key },
   { title: "Renew License", url: "/license/renew", icon: Key },
+  { title: "Settings", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
