@@ -12,6 +12,7 @@ import LicenseManager from "./pages/LicenseManager";
 import RenewLicensePage from "./pages/RenewLicensePage";
 import ClientsDashboard from "./pages/ClientsDashboard";
 import ClientDetail from "./pages/ClientDetail";
+import Registry from "./pages/Registry";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/license/renew" element={<RenewLicensePage />} />
               <Route path="/clients" element={<ClientsDashboard />} />
               <Route path="/clients/:id" element={<ClientDetail />} />
+              <Route path="/registry" element={<Registry />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

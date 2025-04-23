@@ -6,6 +6,7 @@ import { InstitutionLookup } from "./image-upload/InstitutionLookup";
 import { UploadFields } from "./image-upload/UploadFields";
 import { ImageSummary } from "./image-upload/ImageSummary";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import type { Institution } from "@/types/institution";
 
 export function ImageUploadForm() {
@@ -41,14 +42,7 @@ export function ImageUploadForm() {
       const data = await response.json();
       console.log("Received data:", data);
       
-      setInstitution({
-        id: regId,
-        name: data.name,
-        country: data.country,
-        region: data.region,
-        level: data.level,
-        curriculum: data.curriculum,
-      });
+      setInstitution(data);
       toast.success("Institution found");
     } catch (err) {
       console.error("Failed to fetch institution:", err);
@@ -91,12 +85,20 @@ export function ImageUploadForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <InstitutionLookup
-            regId={regId}
-            setRegId={setRegId}
-            loading={loading}
-            fetchInstitution={fetchInstitution}
-          />
+          <div className="space-y-2">
+            <InstitutionLookup
+              regId={regId}
+              setRegId={setRegId}
+              loading={loading}
+              fetchInstitution={fetchInstitution}
+            />
+            <p className="text-xs text-muted-foreground flex justify-between">
+              <span>Enter the MOE registration number to look up the institution</span>
+              <Link to="/registry" className="text-primary hover:underline">
+                Manage Registry
+              </Link>
+            </p>
+          </div>
 
           {institution && (
             <>
