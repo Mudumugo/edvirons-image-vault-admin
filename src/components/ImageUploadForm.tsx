@@ -1,20 +1,12 @@
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Upload, FileCheck } from "lucide-react";
-import type { Institution } from "@/types/institution";
+import { Button } from "@/components/ui/button";
+import { InstitutionLookup } from "./image-upload/InstitutionLookup";
+import { UploadFields } from "./image-upload/UploadFields";
+import { ImageSummary } from "./image-upload/ImageSummary";
 import { toast } from "sonner";
-
-const imageTypes = [
-  { id: "student", label: "Student" },
-  { id: "teacher", label: "Teacher" },
-  { id: "lab", label: "Lab" },
-  { id: "admin", label: "Admin" }
-];
+import type { Institution } from "@/types/institution";
 
 export function ImageUploadForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -36,35 +28,29 @@ export function ImageUploadForm() {
 
   const fetchInstitution = async () => {
     if (!regId.trim()) return;
-    
     setLoading(true);
     try {
-      console.log('Fetching institution with regId:', regId);
+      console.log("Fetching institution with regId:", regId);
       const response = await fetch(`/api/institution/${regId}`);
-      
-      console.log('Response status:', response.status);
+      console.log("Response status:", response.status);
       if (!response.ok) {
-        throw new Error('Institution not found');
+        throw new Error("Institution not found");
       }
-      
       const data = await response.json();
-      console.log('Received data:', data);
-      
-      // Map the API response to the Institution interface
+      console.log("Received data:", data);
       setInstitution({
         id: regId,
         name: data.name,
         country: data.country,
         region: data.region,
         level: data.level,
-        curriculum: data.curriculum
+        curriculum: data.curriculum,
       });
-      
-      toast.success('Institution found');
+      toast.success("Institution found");
     } catch (err) {
-      console.error('Failed to fetch institution:', err);
+      console.error("Failed to fetch institution:", err);
       setInstitution(null);
-      toast.error('Institution not found or error fetching data');
+      toast.error("Institution not found or error fetching data");
     } finally {
       setLoading(false);
     }
@@ -77,23 +63,22 @@ export function ImageUploadForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!institution || !file) return;
-
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('regId', regId);
-    formData.append('type', type);
-    formData.append('version', version);
-    formData.append('hash', hash);
+    formData.append("file", file);
+    formData.append("regId", regId);
+    formData.append("type", type);
+    formData.append("version", version);
+    formData.append("hash", hash);
 
-    console.log('Submitting:', {
+    console.log("Submitting:", {
       filename: generateFileName(),
       institution: institution.name,
       type,
       version,
-      hash
+      hash,
     });
-    
-    toast.success('Image uploaded successfully');
+
+    toast.success("Image uploaded successfully");
   };
 
   return (
@@ -103,27 +88,12 @@ export function ImageUploadForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="regId">Ministry of Education Registration Number</Label>
-            <div className="flex items-center gap-2">
-              <Input
-                id="regId"
-                value={regId}
-                onChange={(e) => setRegId(e.target.value)}
-                placeholder="e.g., 13426"
-                className="flex-1"
-              />
-              <Button 
-                type="button"
-                onClick={fetchInstitution} 
-                disabled={loading || !regId.trim()}
-                variant="secondary"
-              >
-                <Search className="h-4 w-4 mr-2" />
-                {loading ? "Looking up..." : "Lookup"}
-              </Button>
-            </div>
-          </div>
+          <InstitutionLookup
+            regId={regId}
+            setRegId={setRegId}
+            loading={loading}
+            fetchInstitution={fetchInstitution}
+          />
 
           {institution && (
             <>
@@ -134,63 +104,25 @@ export function ImageUploadForm() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="type">Image Type</Label>
-                  <Select value={type} onValueChange={setType}>
-                    <SelectTrigger id="type">
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {imageTypes.map(({id, label}) => (
-                        <SelectItem key={id} value={id}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="version">Version</Label>
-                  <Input
-                    id="version"
-                    value={version}
-                    onChange={(e) => setVersion(e.target.value)}
-                    placeholder="e.g., 1.0"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="file">ISO Image</Label>
-                <div className="flex items-center gap-4">
-                  <Input
-                    id="file"
-                    type="file"
-                    accept=".iso"
-                    onChange={handleFileChange}
-                    className="flex-1"
-                  />
-                  {file ? (
-                    <FileCheck className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <Upload className="h-5 w-5 text-muted-foreground" />
-                  )}
-                </div>
-              </div>
+              <UploadFields
+                type={type}
+                setType={setType}
+                version={version}
+                setVersion={setVersion}
+                file={file}
+                setFile={setFile}
+                handleFileChange={handleFileChange}
+              />
 
               {file && (
-                <div className="p-4 bg-secondary/50 rounded-lg">
-                  <Label>Generated Filename</Label>
-                  <p className="font-mono text-sm mt-1">{generateFileName()}</p>
-                  <Label className="mt-2 block">SHA-256 Hash</Label>
-                  <p className="font-mono text-sm text-muted-foreground">{hash}</p>
-                </div>
+                <ImageSummary
+                  filename={generateFileName()}
+                  hash={hash}
+                />
               )}
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full"
                 disabled={!file || !institution}
               >
