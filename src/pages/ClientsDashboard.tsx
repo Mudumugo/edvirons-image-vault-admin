@@ -9,12 +9,14 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Eye, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { AddClientDialog } from "@/components/AddClientDialog";
 
 export default function ClientsDashboard() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const clients = [
+  // Moved initial clients to state so we can update when adding new clients
+  const [clients, setClients] = useState([
     {
       id: "1",
       name: "Kigwa Ridge High School",
@@ -45,7 +47,24 @@ export default function ClientsDashboard() {
       level: "Secondary",
       license: { tier: "Standard", expiresOn: "2024-08-30", status: "Expired" }
     }
-  ];
+  ]);
+
+  // Handle adding a new client
+  const handleAddClient = (client: any) => {
+    setClients([
+      ...clients,
+      {
+        ...client,
+        id: (clients.length + 1).toString(),
+        license: {
+          tier: "Standard",
+          expiresOn: "2026-12-31",
+          status: "Valid",
+        },
+        // mock defaults (real implementation could let you pick tier, etc)
+      }
+    ]);
+  };
 
   const filtered = clients.filter(c => 
     c.name.toLowerCase().includes(query.toLowerCase()) || 
@@ -77,11 +96,12 @@ export default function ClientsDashboard() {
     <>
       <AppSidebar />
       <div className="flex-1 p-6 space-y-6">
-        <header className="flex justify-between items-center">
+        <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
             <SidebarTrigger />
             <h1 className="text-2xl font-semibold">Clients Management</h1>
           </div>
+          <AddClientDialog onAdd={handleAddClient} />
         </header>
 
         <Card>
