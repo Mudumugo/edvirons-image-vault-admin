@@ -1,11 +1,29 @@
-
 import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ImageUploadForm } from "@/components/ImageUploadForm";
-import { Plus } from "lucide-react";
+import { Plus, Eye, Download, Trash } from "lucide-react";
 import { useState } from "react";
+
+const images = [
+  {
+    filename: "edvirons-kibera-v1.2-student.iso",
+    institution: "Kibera Secondary",
+    type: "Student",
+    version: "1.2",
+    uploaded: "2025-04-21",
+    uploadedBy: "admin@edvirons.com"
+  },
+  {
+    filename: "edvirons-mfangano-v1.0-teacher.iso",
+    institution: "Mfangano High",
+    type: "Teacher",
+    version: "1.0",
+    uploaded: "2025-04-15",
+    uploadedBy: "devops@edvirons.com"
+  }
+];
 
 export default function Images() {
   const [open, setOpen] = useState(false);
@@ -35,14 +53,37 @@ export default function Images() {
             </DialogContent>
           </Dialog>
         </div>
-        <Card>
-          <CardContent className="p-6">
-            <div className="text-muted-foreground">
-              Manage, upload, and view OS images for client devices here.
-              {/* Add real image listing/upload functionality here later */}
-            </div>
-          </CardContent>
-        </Card>
+        <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {images.map((img, i) => (
+              <Card key={i} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-lg truncate">{img.filename}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {img.institution} • {img.type} • v{img.version}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Uploaded: {img.uploaded} • By: {img.uploadedBy}
+                  </p>
+                  <div className="mt-4 flex gap-2">
+                    <Button variant="outline" size="sm">
+                      <Eye className="h-4 w-4 mr-2" />
+                      View
+                    </Button>
+                    <Button variant="secondary" size="sm">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                    <Button variant="destructive" size="sm">
+                      <Trash className="h-4 w-4 mr-2" />
+                      Delete
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
