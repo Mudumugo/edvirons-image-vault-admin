@@ -24,20 +24,10 @@ export const handlers = [
     const institution = mockRegistry[regId as string]
 
     if (institution) {
-      // Explicitly set content-type to ensure proper JSON handling
-      return HttpResponse.json(institution, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        status: 200
-      })
+      // Return a proper JSON response
+      return HttpResponse.json(institution)
     }
     
-    return new HttpResponse(null, { 
-      status: 404,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    return HttpResponse.json({ error: "Institution not found" }, { status: 404 })
   }),
 ]

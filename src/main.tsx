@@ -8,6 +8,7 @@ import { worker } from './mocks/browser'
 // Initialize MSW worker before rendering the app
 async function startApp() {
   if (process.env.NODE_ENV !== 'production') {
+    // Wait for MSW to initialize
     await worker.start({
       onUnhandledRequest: 'bypass', // Don't warn about unhandled requests
     })
