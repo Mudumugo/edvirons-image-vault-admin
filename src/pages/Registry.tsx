@@ -21,12 +21,12 @@ export default function Registry() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Filter state
-  const [levelFilter, setLevelFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
-  const [curriculumFilter, setCurriculumFilter] = useState("");
-  const [regionFilter, setRegionFilter] = useState("");
-  const [countryFilter, setCountryFilter] = useState("");
+  // Filter state - using "all" instead of empty string for the default values
+  const [levelFilter, setLevelFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [curriculumFilter, setCurriculumFilter] = useState("all");
+  const [regionFilter, setRegionFilter] = useState("all");
+  const [countryFilter, setCountryFilter] = useState("all");
 
   // Fetching registry data
   const { data: institutions, isLoading, refetch } = useFetchRegistry();
@@ -38,7 +38,7 @@ export default function Registry() {
   const regions = Array.from(new Set((institutions || []).map(i => i.region))).filter(Boolean);
   const countries = Array.from(new Set((institutions || []).map(i => i.country))).filter(Boolean);
 
-  // Filter + search logic
+  // Filter + search logic - modified to check for "all" instead of empty string
   const filteredInstitutions = (institutions || []).filter((institution) => {
     const matchesSearch =
       institution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -47,11 +47,11 @@ export default function Registry() {
       institution.curriculum.toLowerCase().includes(searchQuery.toLowerCase()) ||
       institution.type.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesLevel = !levelFilter || institution.level === levelFilter;
-    const matchesType = !typeFilter || institution.type === typeFilter;
-    const matchesCurriculum = !curriculumFilter || institution.curriculum === curriculumFilter;
-    const matchesRegion = !regionFilter || institution.region === regionFilter;
-    const matchesCountry = !countryFilter || institution.country === countryFilter;
+    const matchesLevel = levelFilter === "all" || institution.level === levelFilter;
+    const matchesType = typeFilter === "all" || institution.type === typeFilter;
+    const matchesCurriculum = curriculumFilter === "all" || institution.curriculum === curriculumFilter;
+    const matchesRegion = regionFilter === "all" || institution.region === regionFilter;
+    const matchesCountry = countryFilter === "all" || institution.country === countryFilter;
 
     return (
       matchesSearch &&
@@ -80,7 +80,7 @@ export default function Registry() {
 
         <Card>
           <CardHeader className="flex flex-col gap-4">
-            {/* Filter bar */}
+            {/* Filter bar - updated to use "all" value instead of empty string */}
             <div className="flex flex-col md:flex-row flex-wrap gap-4">
               <div className="flex flex-col">
                 <label className="text-xs mb-1">Education Level</label>
@@ -89,7 +89,7 @@ export default function Registry() {
                     <SelectValue placeholder="All" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     {levels.map((level) => (
                       <SelectItem key={level} value={level}>{level}</SelectItem>
                     ))}
@@ -103,7 +103,7 @@ export default function Registry() {
                     <SelectValue placeholder="All" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     {types.map((type) => (
                       <SelectItem key={type} value={type}>{type[0].toUpperCase() + type.slice(1)}</SelectItem>
                     ))}
@@ -117,7 +117,7 @@ export default function Registry() {
                     <SelectValue placeholder="All" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     {curricula.map((c) => (
                       <SelectItem key={c} value={c}>{c}</SelectItem>
                     ))}
@@ -131,7 +131,7 @@ export default function Registry() {
                     <SelectValue placeholder="All" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     {regions.map((r) => (
                       <SelectItem key={r} value={r}>{r}</SelectItem>
                     ))}
@@ -145,7 +145,7 @@ export default function Registry() {
                     <SelectValue placeholder="All" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     {countries.map((c) => (
                       <SelectItem key={c} value={c}>{c}</SelectItem>
                     ))}
