@@ -15,7 +15,7 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Images", url: "/images", icon: HardDrive },
-  { title: "Clients", url: "/clients", icon: Building },
+  { title: "Clients", url: "/clients", icon: Building }, // Updated to match the route
   { title: "Registry", url: "/registry", icon: Search },
   { title: "Logs", url: "/logs", icon: History },
   { title: "Users", url: "/users", icon: Users },
