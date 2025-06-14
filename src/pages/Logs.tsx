@@ -1,109 +1,164 @@
 
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
-import { Monitor, ServerCog, FileText, SearchCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Monitor, ServerCog, FileText, SearchCheck, Activity, AlertTriangle } from "lucide-react";
 
 const logs = [
   {
     id: 1,
     event: "User login",
-    details: "John Doe logged in",
-    time: "2025-04-23 10:10:23",
+    details: "John Doe logged in from 192.168.1.100",
+    time: "2025-06-14 10:10:23",
     status: "Success",
-    icon: <Monitor className="text-vividPurple" />,
-    color: "bg-softBlue/60",
+    severity: "info",
+    icon: <Monitor className="w-4 h-4" />,
+    color: "bg-blue-50 text-blue-700 border-blue-200",
   },
   {
     id: 2,
     event: "Image uploaded",
-    details: "Passport image added for Anna Smith",
-    time: "2025-04-23 09:58:11",
+    details: "Ubuntu 22.04 LTS image added for Kibera Secondary",
+    time: "2025-06-14 09:58:11",
     status: "Success",
-    icon: <FileText className="text-oceanBlue" />,
-    color: "bg-softGreen/70",
+    severity: "info",
+    icon: <FileText className="w-4 h-4" />,
+    color: "bg-emerald-50 text-emerald-700 border-emerald-200",
   },
   {
     id: 3,
     event: "License renewed",
-    details: "Renewed license for Bridges School",
-    time: "2025-04-22 19:42:10",
+    details: "Premium license renewed for Bridges School (1 year)",
+    time: "2025-06-14 09:42:10",
     status: "Success",
-    icon: <ServerCog className="text-brightOrange" />,
-    color: "bg-softYellow/70",
+    severity: "info",
+    icon: <ServerCog className="w-4 h-4" />,
+    color: "bg-purple-50 text-purple-700 border-purple-200",
   },
   {
     id: 4,
     event: "Data export",
-    details: "CSV file downloaded by admin",
-    time: "2025-04-22 18:00:37",
+    details: "Client registry CSV exported by admin@edvirons.com",
+    time: "2025-06-14 08:30:37",
     status: "Success",
-    icon: <SearchCheck className="text-primary" />,
-    color: "bg-softPurple/70",
+    severity: "info",
+    icon: <SearchCheck className="w-4 h-4" />,
+    color: "bg-cyan-50 text-cyan-700 border-cyan-200",
   },
   {
     id: 5,
-    event: "Password attempt",
-    details: "Failed login for jane@school.edu",
-    time: "2025-04-22 16:28:05",
-    status: "Failed",
-    icon: <Monitor className="text-red-500" />,
-    color: "bg-softPink/70",
+    event: "Failed login attempt",
+    details: "Multiple failed attempts for jane@school.edu",
+    time: "2025-06-14 07:28:05",
+    status: "Warning",
+    severity: "warning",
+    icon: <AlertTriangle className="w-4 h-4" />,
+    color: "bg-amber-50 text-amber-700 border-amber-200",
+  },
+  {
+    id: 6,
+    event: "System maintenance",
+    details: "Scheduled database optimization completed",
+    time: "2025-06-14 03:00:00",
+    status: "Success",
+    severity: "info",
+    icon: <Activity className="w-4 h-4" />,
+    color: "bg-slate-50 text-slate-700 border-slate-200",
   },
 ];
 
+const getSeverityBadge = (severity: string, status: string) => {
+  if (status === "Success") {
+    return <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 hover:bg-emerald-100">Success</Badge>;
+  } else if (severity === "warning") {
+    return <Badge className="bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-100">Warning</Badge>;
+  } else {
+    return <Badge className="bg-red-100 text-red-800 border-red-200 hover:bg-red-100">Error</Badge>;
+  }
+};
+
 export default function Logs() {
   return (
-    <div className="min-h-screen py-10 px-4 md:px-12 bg-gradient-to-tl from-[#FDE1D3] via-[#E5DEFF] to-[#D3E4FD]">
-      <div className="max-w-4xl mx-auto bg-white/80 dark:bg-[#221F26] shadow-xl rounded-xl p-7 border-t-8 border-primary animate-fade-in">
-        {/* Fancy Edvirons Registry Logo & Title */}
-        <div className="flex items-center gap-4 mb-7">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-indigo-600 shadow flex items-center justify-center">
-            <span className="text-3xl font-extrabold text-white select-none drop-shadow">
-              ER
-            </span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/20 to-cyan-50/20 dark:from-slate-900 dark:via-purple-900/10 dark:to-cyan-900/10 py-8 px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="glass rounded-3xl border border-slate-200/50 dark:border-slate-700/50 shadow-2xl overflow-hidden">
+          {/* Modern Header */}
+          <div className="border-b border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-r from-white/80 to-slate-50/80 dark:from-slate-800/80 dark:to-slate-700/80 p-8">
+            <div className="flex items-center gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-600 shadow-xl flex items-center justify-center">
+                <Activity className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
+                  System Event Logs
+                </h1>
+                <p className="text-lg text-slate-600 dark:text-slate-400 mt-1">
+                  Real-time monitoring of system activities, user actions, and security events
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <div className="text-2xl font-bold text-primary tracking-tight">Event & Audit Logs</div>
-            <div className="text-[15px] text-muted-foreground">All user actions, logins, uploads, renewals & more</div>
+
+          {/* Enhanced Table */}
+          <div className="p-8">
+            <div className="overflow-x-auto">
+              <Table className="min-w-full">
+                <TableHeader>
+                  <TableRow className="border-slate-200/50 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50">
+                    <TableHead className="font-bold text-slate-900 dark:text-slate-100 py-4">Event</TableHead>
+                    <TableHead className="font-bold text-slate-900 dark:text-slate-100">Details</TableHead>
+                    <TableHead className="font-bold text-slate-900 dark:text-slate-100">Timestamp</TableHead>
+                    <TableHead className="font-bold text-slate-900 dark:text-slate-100">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {logs.map((log) => (
+                    <TableRow 
+                      key={log.id} 
+                      className="border-slate-200/30 dark:border-slate-700/30 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-all duration-200 group"
+                    >
+                      <TableCell className="py-4">
+                        <div className={`inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border ${log.color} font-medium transition-all duration-200 group-hover:scale-105`}>
+                          {log.icon}
+                          <span>{log.event}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-slate-700 dark:text-slate-300 font-medium">
+                          {log.details}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-mono text-slate-600 dark:text-slate-400">
+                            {log.time}
+                          </span>
+                          <span className="text-xs text-slate-500 dark:text-slate-500">
+                            Just now
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {getSeverityBadge(log.severity, log.status)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
-        </div>
-        <div className="overflow-x-auto rounded-xl">
-          <Table className="min-w-[600px]">
-            <TableHeader>
-              <TableRow className="bg-[#f5f1ff]">
-                <TableHead className="w-12"></TableHead>
-                <TableHead className="font-semibold text-secondaryPurple">Event</TableHead>
-                <TableHead className="font-semibold text-secondaryPurple">Details</TableHead>
-                <TableHead className="font-semibold text-secondaryPurple">Time</TableHead>
-                <TableHead className="font-semibold text-secondaryPurple">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {logs.map((log) => (
-                <TableRow key={log.id} className="transition-colors hover:bg-softBlue/30">
-                  <TableCell className="text-center">{log.icon}</TableCell>
-                  <TableCell>
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg font-medium text-sm ${log.color}`}>
-                      {log.event}
-                    </span>
-                  </TableCell>
-                  <TableCell>{log.details}</TableCell>
-                  <TableCell>
-                    <span className="text-xs text-gray-500">{log.time}</span>
-                  </TableCell>
-                  <TableCell>
-                    {log.status === "Success" ? (
-                      <span className="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold shadow">Success</span>
-                    ) : (
-                      <span className="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold shadow">Failed</span>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+
+          {/* Modern Footer */}
+          <div className="border-t border-slate-200/50 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50 p-6">
+            <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
+              <span>Showing {logs.length} recent events</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>Live monitoring active</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
